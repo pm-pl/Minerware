@@ -5,7 +5,7 @@
     "license": "LGPL-3.0",
     "require": {
         "buchwasa/scorefactory": "dev-master",
-        "cortexpe/commando": "dev-master",
+        "cortexpe/commando": "dev-ready",
         "ifera-mc/config-updater": "dev-master",
         "ivancraft623/fakeblocks": "dev-main",
         "ivancraft623/languages": "dev-main",
