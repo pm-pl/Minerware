@@ -94,6 +94,9 @@ final class Cage {
 		}
 	}
 
+	/**
+	 * @return Player[]
+	 */
 	public function getPlayers() : array {
 		return $this->players;
 	}

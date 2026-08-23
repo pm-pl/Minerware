@@ -169,7 +169,7 @@ final class Arena implements Listener {
 		return $this->world;
 	}
 
-	public function getMap() : ?Map {
+	public function getMap() : Map {
 		return $this->map;
 	}
 
@@ -258,6 +258,9 @@ final class Arena implements Listener {
 		return isset($this->players[$player->getId()]);
 	}
 
+	/**
+	 * @return Player[]
+	 */
 	public function getPlayers() : array {
 		return $this->players;
 	}
@@ -305,11 +308,9 @@ final class Arena implements Listener {
 	}
 
 	public function deleteMap() : void {
-		if ($this->world !== null) {
-			$worldPath = $this->plugin->getServer()->getDataPath() . "worlds" . DIRECTORY_SEPARATOR . $this->world->getFolderName() . DIRECTORY_SEPARATOR;
-			$this->plugin->getServer()->getWorldManager()->unloadWorld($this->world, true);
-			Utils::removeDir($worldPath);
-		}
+		$worldPath = $this->plugin->getServer()->getDataPath() . "worlds" . DIRECTORY_SEPARATOR . $this->world->getFolderName() . DIRECTORY_SEPARATOR;
+		$this->plugin->getServer()->getWorldManager()->unloadWorld($this->world, true);
+		Utils::removeDir($worldPath);
 	}
 
 	public function updateScoreboard() : void {
@@ -500,6 +501,9 @@ final class Arena implements Listener {
 		(new ArenaEndEvent($this))->call();
 	}
 
+	/**
+	 * @return array<int, array<int, Player>>
+	 */
 	public function getWinners() : array {
 		return $this->winners;
 	}
@@ -520,6 +524,9 @@ final class Arena implements Listener {
 		return false;
 	}
 
+	/**
+	 * @return array<int, Player>
+	 */
 	public function getLosers() : array {
 		return $this->losers;
 	}

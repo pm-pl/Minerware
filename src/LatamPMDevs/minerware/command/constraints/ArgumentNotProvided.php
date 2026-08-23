@@ -40,6 +40,9 @@ final class ArgumentNotProvided extends BaseConstraint {
 		$this->argumentName = $argumentName;
 	}
 
+	/**
+	 * @param array<string, mixed> $args
+	 */
 	public function test(CommandSender $sender, string $aliasUsed, array $args) : bool {
 		foreach ($this->argumentName as $argumentName) {
 			if (!array_key_exists($argumentName, $args)) {
@@ -50,6 +53,9 @@ final class ArgumentNotProvided extends BaseConstraint {
 		return true;
 	}
 
+	/**
+	 * @param array<string, mixed> $args
+	 */
 	public function onFailure(CommandSender $sender, string $aliasUsed, array $args) : void {
 		/** @var BaseSubCommand $context */
 		$context = $this->context;

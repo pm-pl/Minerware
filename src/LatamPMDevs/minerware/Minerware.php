@@ -26,7 +26,6 @@ use CortexPE\Commando\PacketHooker;
 use IvanCraft623\fakeblocks\FakeBlockManager;
 use IvanCraft623\languages\Translator;
 use JackMD\ConfigUpdater\ConfigUpdater;
-use JackMD\UpdateNotifier\UpdateNotifier;
 use LatamPMDevs\minerware\arena\ArenaManager;
 use LatamPMDevs\minerware\command\MinerwareCommand;
 use LatamPMDevs\minerware\database\DataManager;
@@ -46,7 +45,6 @@ final class Minerware extends PluginBase {
 	protected function onLoad() : void {
 		self::setInstance($this);
 
-		UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
 		if (ConfigUpdater::checkUpdate($this, $this->getConfig(), "config-version", self::CONFIG_VERSION)) {
 			$this->reloadConfig();
 		}

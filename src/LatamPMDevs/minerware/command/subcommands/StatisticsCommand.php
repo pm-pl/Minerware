@@ -44,6 +44,9 @@ final class StatisticsCommand extends BaseSubCommand {
 		$this->registerArgument(0, new RawStringArgument("user", true));
 	}
 
+	/**
+	 * @param array<string, mixed> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 		$translator = $this->plugin->getTranslator();
 		if (!$sender instanceof Player && !isset($args["user"])) {

@@ -39,6 +39,9 @@ final class ArenaManager {
 	/** @var array<string, Arena> */
 	private array $arenas = [];
 
+	/**
+	 * @return array<string, Arena>
+	 */
 	public function getArenas() : array {
 		return $this->arenas;
 	}

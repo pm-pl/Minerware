@@ -38,6 +38,9 @@ final class HelpCommand extends BaseSubCommand {
 		$this->registerArgument(0, new RawStringArgument("category", true));
 	}
 
+	/**
+	 * @param array<string, mixed> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 		$category = $args["category"] ?? null;
 		if ($category === null) {

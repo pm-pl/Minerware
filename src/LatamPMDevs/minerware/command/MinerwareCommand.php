@@ -49,6 +49,9 @@ final class MinerwareCommand extends BaseCommand {
 		$this->registerSubcommand(new StatisticsCommand($this->plugin));
 	}
 
+	/**
+	 * @param array<string, mixed> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 		$sender->sendMessage($this->plugin->getTranslator()->translate($sender, "command.notFound"));
 	}

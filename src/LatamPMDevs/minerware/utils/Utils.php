@@ -124,6 +124,9 @@ final class Utils {
 		return str_repeat("▌", $colorSticks) . "§7" . str_repeat("▌", $leftover);
 	}
 
+	/**
+	 * @return array{0: Vector3, 1: Vector3}
+	 */
 	public static function calculateMinAndMaxPos(Vector3 $pos1, Vector3 $pos2) : array {
 		$minX = min($pos1->x, $pos2->x);
 		$minY = min($pos1->y, $pos2->y);
@@ -136,6 +139,10 @@ final class Utils {
 		return [new Vector3($minX, $minY, $minZ), new Vector3($maxX, $maxY, $maxZ)];
 	}
 
+	/**
+	 * @param Player[] $players
+	 * @return string[]
+	 */
 	public static function getPlayersNames(array $players) : array {
 		$names = [];
 		foreach ($players as $player) {
@@ -227,6 +234,10 @@ final class Utils {
 		$player->getOffHandInventory()->clearAll();
 	}
 
+	/**
+	 * @param array<int, int> $array
+	 * @return array<int, array<int, int>>
+	 */
 	public static function chunkScores(array $array) : array {
 		$result = [];
 		foreach ($array as $key => $score) {
@@ -297,6 +308,9 @@ final class Utils {
 		return $folder . $path;
 	}
 
+	/**
+	 * @return array<string, int>
+	 */
 	public static function getTime(int $seconds) : array {
 		if ($seconds < 0) {
 			throw new InvalidArgumentException("Seconds is lower than 0");

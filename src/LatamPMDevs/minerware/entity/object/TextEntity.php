@@ -48,6 +48,9 @@ class TextEntity extends Human {
 		$this->setNameTagAlwaysVisible(true);
 	}
 
+	/**
+	 * @return array<int, string>
+	 */
 	public function getNameTagPerPlayer() : array {
 		return $this->nameTagPerPlayer;
 	}

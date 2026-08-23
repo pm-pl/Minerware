@@ -77,9 +77,7 @@ final class DataManager {
 	}
 
 	public function closeDatabase() : void {
-		if (isset($this->database)) {
-			$this->database->close();
-		}
+		$this->database->close();
 	}
 
 	public function createContext() : void {
@@ -93,19 +91,17 @@ final class DataManager {
 	}
 
 	public function getPlayerData(string $name, callable $onSuccess, ?callable $onError = null, bool $nonNull = false) : void {
-		if (isset($this->database)) {
-			$this->database->executeSelect('data.players.get', [
-				"name" => $name
-			], function (array $rows) use ($name, $onSuccess, $nonNull) {
-				$playerdata = null;
-				if (isset($rows[0])) {
-					$playerdata = PlayerData::jsonDeserialize($rows[0]);
-				} elseif ($nonNull) {
-					$playerdata = new PlayerData($name, time(), 0, 0, 0, 0, 0, 0);
-				}
-				$onSuccess($playerdata);
-			}, $onError ?? $this->onError);
-		}
+		$this->database->executeSelect('data.players.get', [
+			"name" => $name
+		], function (array $rows) use ($name, $onSuccess, $nonNull) {
+			$playerdata = null;
+			if (isset($rows[0])) {
+				$playerdata = PlayerData::jsonDeserialize($rows[0]);
+			} elseif ($nonNull) {
+				$playerdata = new PlayerData($name, time(), 0, 0, 0, 0, 0, 0);
+			}
+			$onSuccess($playerdata);
+		}, $onError ?? $this->onError);
 	}
 
 	public function addPlayer(
@@ -128,63 +124,49 @@ final class DataManager {
 			"microgamesPlayed" => $microgamesPlayed,
 			"timePlayed" => $timePlayed
 		];
-		if (isset($this->database)) {
-			$this->database->executeGeneric('data.players.add', $values, $onSuccess, $onError ?? $this->onError);
-		}
+		$this->database->executeGeneric('data.players.add', $values, $onSuccess, $onError ?? $this->onError);
 	}
 
 	public function addWins(string $name, int $count, ?callable $onSuccess = null, ?callable $onError = null) : void {
-		if (isset($this->database)) {
-			$this->database->executeGeneric('data.players.addWins', [
-				"name" => $name,
-				"count" => $count
-			], $onSuccess, $onError ?? $this->onError);
-		}
+		$this->database->executeGeneric('data.players.addWins', [
+			"name" => $name,
+			"count" => $count
+		], $onSuccess, $onError ?? $this->onError);
 	}
 
 	public function addBossgamesWon(string $name, int $count, ?callable $onSuccess = null, ?callable $onError = null) : void {
-		if (isset($this->database)) {
-			$this->database->executeGeneric('data.players.addBossgamesWon', [
-				"name" => $name,
-				"count" => $count
-			], $onSuccess, $onError ?? $this->onError);
-		}
+		$this->database->executeGeneric('data.players.addBossgamesWon', [
+			"name" => $name,
+			"count" => $count
+		], $onSuccess, $onError ?? $this->onError);
 	}
 
 	public function addMicrogamesWon(string $name, int $count, ?callable $onSuccess = null, ?callable $onError = null) : void {
-		if (isset($this->database)) {
-			$this->database->executeGeneric('data.players.addMicrogamesWon', [
-				"name" => $name,
-				"count" => $count
-			], $onSuccess, $onError ?? $this->onError);
-		}
+		$this->database->executeGeneric('data.players.addMicrogamesWon', [
+			"name" => $name,
+			"count" => $count
+		], $onSuccess, $onError ?? $this->onError);
 	}
 
 	public function addGamesPlayed(string $name, int $count, ?callable $onSuccess = null, ?callable $onError = null) : void {
-		if (isset($this->database)) {
-			$this->database->executeGeneric('data.players.addGamesPlayed', [
-				"name" => $name,
-				"count" => $count
-			], $onSuccess, $onError ?? $this->onError);
-		}
+		$this->database->executeGeneric('data.players.addGamesPlayed', [
+			"name" => $name,
+			"count" => $count
+		], $onSuccess, $onError ?? $this->onError);
 	}
 
 	public function addMicrogamesPlayed(string $name, int $count, ?callable $onSuccess = null, ?callable $onError = null) : void {
-		if (isset($this->database)) {
-			$this->database->executeGeneric('data.players.addMicrogamesPlayed', [
-				"name" => $name,
-				"count" => $count
-			], $onSuccess, $onError ?? $this->onError);
-		}
+		$this->database->executeGeneric('data.players.addMicrogamesPlayed', [
+			"name" => $name,
+			"count" => $count
+		], $onSuccess, $onError ?? $this->onError);
 	}
 
 	public function addTimePlayed(string $name, int $seconds, ?callable $onSuccess = null, ?callable $onError = null) : void {
-		if (isset($this->database)) {
-			$this->database->executeGeneric('data.players.addTimePlayed', [
-				"name" => $name,
-				"seconds" => $seconds
-			], $onSuccess, $onError ?? $this->onError);
-		}
+		$this->database->executeGeneric('data.players.addTimePlayed', [
+			"name" => $name,
+			"seconds" => $seconds
+		], $onSuccess, $onError ?? $this->onError);
 	}
 
 	public function loadMaps() : bool {

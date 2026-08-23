@@ -40,6 +40,9 @@ final class LanguageCommand extends BaseSubCommand {
 		$this->registerArgument(0, new LanguageArgument($this->plugin));
 	}
 
+	/**
+	 * @param array<string, mixed> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 		$language = null;
 		$languages = $this->plugin->getTranslator()->getLanguages();

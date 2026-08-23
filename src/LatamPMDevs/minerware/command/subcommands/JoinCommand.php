@@ -45,6 +45,7 @@ final class JoinCommand extends BaseSubCommand {
 
 	/**
 	 * @param Player $sender
+	 * @param array<string, mixed> $args
 	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 		ArenaManager::getInstance()->join($sender);

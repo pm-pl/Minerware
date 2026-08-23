@@ -62,6 +62,9 @@ final class DataHolder {
 		return (float) $this->data[$key];
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function getArray(string $key) : array {
 		$this->checkKeyExists($key);
 		return (array) $this->data[$key];
@@ -71,6 +74,9 @@ final class DataHolder {
 		return (string) json_encode($this->data);
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function getAll() : array {
 		return $this->data;
 	}

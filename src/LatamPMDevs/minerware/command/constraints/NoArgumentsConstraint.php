@@ -30,10 +30,16 @@ use function count;
 
 final class NoArgumentsConstraint extends BaseConstraint {
 
+	/**
+	 * @param array<string, mixed> $args
+	 */
 	public function test(CommandSender $sender, string $aliasUsed, array $args) : bool {
 		return count($args) !== 0;
 	}
 
+	/**
+	 * @param array<string, mixed> $args
+	 */
 	public function onFailure(CommandSender $sender, string $aliasUsed, array $args) : void {
 		$sender->sendMessage(Minerware::getInstance()->getTranslator()->translate($sender, "command.notFound"));
 	}

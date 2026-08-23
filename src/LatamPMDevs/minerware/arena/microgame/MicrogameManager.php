@@ -119,10 +119,16 @@ final class MicrogameManager {
 		return $this->microgames[$saveName] ?? $this->bossgames[$saveName] ?? null;
 	}
 
+	/**
+	 * @return array<string, class-string<Microgame>>
+	 */
 	public function getMicrogames() : array {
 		return $this->microgames;
 	}
 
+	/**
+	 * @return array<string, class-string<Microgame>>
+	 */
 	public function getBossgames() : array {
 		return $this->bossgames;
 	}

@@ -33,6 +33,7 @@ use function mkdir;
 
 final class Map {
 
+	/** @var Map[] */
 	public static array $maps = [];
 
 	public const PLATFORM_X_SIZE = 24;

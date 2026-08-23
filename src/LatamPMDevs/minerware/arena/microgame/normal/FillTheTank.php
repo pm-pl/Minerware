@@ -182,8 +182,11 @@ class FillTheTank extends Microgame implements Listener {
 		parent::start();
 	}
 
-	/* This is a pretty horrible hack,
+	/**
+	 * This is a pretty horrible hack,
 	 * in the future we plan to implement a building system
+	 *
+	 * @return Block[]
 	 */
 	private function buildTank() : array {
 		$changedBlocks = [];
@@ -247,6 +250,9 @@ class FillTheTank extends Microgame implements Listener {
 		parent::end();
 	}
 
+	/**
+	 * @return array<int, Vector3>
+	 */
 	public function getWaterPlatform() : array {
 		return $this->waterPlatform;
 	}

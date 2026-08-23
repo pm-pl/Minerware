@@ -253,14 +253,23 @@ class PlatformPlummet extends Microgame implements Listener {
 		parent::end();
 	}
 
+	/**
+	 * @return array<int, Vector2[]>
+	 */
 	public function getPlatforms() : array {
 		return $this->platforms;
 	}
 
+	/**
+	 * @return array<int, Vector2[]>
+	 */
 	public function getUnbreakablePlatforms() : array {
 		return $this->unbreakablePlatforms;
 	}
 
+	/**
+	 * @return array<int, Vector2[]>
+	 */
 	public function getBreakablePlatforms() : array {
 		return $this->breakablePlatforms;
 	}
