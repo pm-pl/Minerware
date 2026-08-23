@@ -4,7 +4,7 @@
     "type": "project",
     "license": "LGPL-3.0",
     "require": {
-        "buchwasa/scorefactory": "dev-master",
+        "axolotl-plugin-orphanage/scorefactory": "dev-master",
         "cortexpe/commando": "dev-ready",
         "ifera-mc/config-updater": "dev-master",
         "ivancraft623/fakeblocks": "dev-main",

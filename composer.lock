@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "42fb59022d548b3b500ff81af430f127",
+    "content-hash": "98adf23f72f705f886860f7945638235",
     "packages": [
         {
             "name": "adhocore/json-comment",
@@ -66,6 +66,57 @@
             "time": "2022-10-02T11:22:07+00:00"
         },
         {
+            "name": "axolotl-plugin-orphanage/scorefactory",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/axolotl-plugin-orphanage/ScoreFactory.git",
+                "reference": "64258030736496364dfca8554e13183d62644057"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/axolotl-plugin-orphanage/ScoreFactory/zipball/64258030736496364dfca8554e13183d62644057",
+                "reference": "64258030736496364dfca8554e13183d62644057",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "axolotl-pm/pocketmine-mp": "^5.45.0",
+                "phpstan/phpstan": "^2.2.7"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "virion": {
+                    "spec": "3.0",
+                    "namespace-root": "jackmd\\scorefactory"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Tayyab R.",
+                    "homepage": "https://github.com/Ifera",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple library for making scoreboards in PocketMine-MP",
+            "support": {
+                "source": "https://github.com/axolotl-plugin-orphanage/ScoreFactory/tree/master"
+            },
+            "time": "2026-08-23T22:52:26+00:00"
+        },
+        {
             "name": "brick/math",
             "version": "0.13.1",
             "source": {
@@ -124,57 +175,6 @@
                 }
             ],
             "time": "2025-03-29T13:50:30+00:00"
-        },
-        {
-            "name": "buchwasa/scorefactory",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Ifera/ScoreFactory.git",
-                "reference": "d50816b99f7b05fbc48079134a643808b8762ed6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Ifera/ScoreFactory/zipball/d50816b99f7b05fbc48079134a643808b8762ed6",
-                "reference": "d50816b99f7b05fbc48079134a643808b8762ed6",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0",
-                "pocketmine/pocketmine-mp": "^4.0.0 || ^5.0.0"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^0.12.99"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "virion": {
-                    "spec": "3.0",
-                    "namespace-root": "jackmd\\scorefactory"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "": "src/"
-                }
-            },
-            "license": [
-                "GPL-3.0-only"
-            ],
-            "authors": [
-                {
-                    "name": "Tayyab R.",
-                    "homepage": "https://github.com/Ifera",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Simple library for making scoreboards in PocketMine-MP",
-            "support": {
-                "source": "https://github.com/Ifera/ScoreFactory/tree/master",
-                "issues": "https://github.com/Ifera/ScoreFactory/issues"
-            },
-            "time": "2023-11-03T08:17:53+00:00"
         },
         {
             "name": "cortexpe/commando",
@@ -3678,7 +3678,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "buchwasa/scorefactory": 20,
+        "axolotl-plugin-orphanage/scorefactory": 20,
         "cortexpe/commando": 20,
         "ifera-mc/config-updater": 20,
         "ivancraft623/fakeblocks": 20,
