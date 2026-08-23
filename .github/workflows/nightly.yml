@@ -2,7 +2,7 @@ name: Nightly
 
 on:
   push:
-    branches: [PM5]
+    branches: [master]
 
 jobs:
   build:
