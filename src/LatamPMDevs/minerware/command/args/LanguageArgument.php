@@ -22,8 +22,8 @@ declare(strict_types=1);
 
 namespace LatamPMDevs\minerware\command\args;
 
-use CortexPE\Commando\args\StringEnumArgument;
-use IvanCraft623\languages\Language;
+use LatamPMDevs\minerware\libs\_bf7b687bef930f1a\CortexPE\Commando\args\StringEnumArgument;
+use LatamPMDevs\minerware\libs\_bf7b687bef930f1a\IvanCraft623\languages\Language;
 use LatamPMDevs\minerware\Minerware;
 use pocketmine\command\CommandSender;
 

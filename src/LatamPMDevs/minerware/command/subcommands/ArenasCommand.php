@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace LatamPMDevs\minerware\command\subcommands;
 
-use CortexPE\Commando\BaseCommand;
-use CortexPE\Commando\BaseSubCommand;
-use CortexPE\Commando\constraint\InGameRequiredConstraint;
+use LatamPMDevs\minerware\libs\_bf7b687bef930f1a\CortexPE\Commando\BaseCommand;
+use LatamPMDevs\minerware\libs\_bf7b687bef930f1a\CortexPE\Commando\BaseSubCommand;
+use LatamPMDevs\minerware\libs\_bf7b687bef930f1a\CortexPE\Commando\constraint\InGameRequiredConstraint;
 use LatamPMDevs\minerware\arena\MapRegisterer;
 use LatamPMDevs\minerware\command\args\ArenaActionArgument;
 use LatamPMDevs\minerware\command\args\WorldArgument;
