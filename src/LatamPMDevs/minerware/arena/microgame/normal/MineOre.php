@@ -72,7 +72,7 @@ class MineOre extends Microgame implements Listener {
 	}
 
 	public function getLevel() : Level {
-		return Level::NORMAL();
+		return Level::NORMAL;
 	}
 
 	public function getGameDuration() : float {
@@ -123,7 +123,7 @@ class MineOre extends Microgame implements Listener {
 			$pickaxe = VanillaItems::DIAMOND_PICKAXE();
 			$pickaxe->setCustomName($this->plugin->getTranslator()->translate($player, "microgame.item.pickaxe"));
 			$pickaxe->addEnchantment(new EnchantmentInstance($efficiency, self::EFFICIENCY_LEVEL));
-			$player->setGamemode(GameMode::SURVIVAL());
+			$player->setGamemode(GameMode::SURVIVAL);
 			$player->getInventory()->setItem(0, $pickaxe);
 			$player->getInventory()->setItem(8, $oreItem);
 			$player->getInventory()->setHeldItemIndex(0);

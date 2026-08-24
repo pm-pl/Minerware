@@ -54,7 +54,7 @@ class BowSpleef extends Microgame implements Listener {
 	}
 
 	public function getLevel() : Level {
-		return Level::BOSS();
+		return Level::BOSS;
 	}
 
 	public function getGameDuration() : float {
@@ -86,7 +86,7 @@ class BowSpleef extends Microgame implements Listener {
 		$arrow = VanillaItems::ARROW();
 		foreach ($this->arena->getPlayers() as $player) {
 			Utils::initPlayer($player);
-			$player->setGamemode(GameMode::ADVENTURE());
+			$player->setGamemode(GameMode::ADVENTURE);
 			$player->getInventory()->setItem(0, $bow);
 			$player->getInventory()->setItem(1, $arrow);
 			$player->getInventory()->setHeldItemIndex(0);

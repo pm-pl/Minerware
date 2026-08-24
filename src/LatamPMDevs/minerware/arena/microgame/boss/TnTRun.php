@@ -70,7 +70,7 @@ class TnTRun extends Microgame implements Listener {
 	}
 
 	public function getLevel() : Level {
-		return Level::BOSS();
+		return Level::BOSS;
 	}
 
 	public function getGameDuration() : float {
@@ -128,7 +128,7 @@ class TnTRun extends Microgame implements Listener {
 		$highestPlatformY = $minPos->y + ((self::SPLACING_BETWEEN_LAYERS + 2) * self::LAYERS);
 		foreach ($this->arena->getPlayers() as $player) {
 			Utils::initPlayer($player);
-			$player->setGamemode(GameMode::ADVENTURE());
+			$player->setGamemode(GameMode::ADVENTURE);
 			$player->getInventory()->setHeldItemIndex(0);
 			$safePos = $this->arena->getSafePosition($player);
 			$safePos->y = $highestPlatformY;

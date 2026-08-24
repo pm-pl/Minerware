@@ -72,7 +72,7 @@ class StandOnDiamond extends Microgame implements Listener {
 	}
 
 	public function getLevel() : Level {
-		return Level::NORMAL();
+		return Level::NORMAL;
 	}
 
 	public function getGameDuration() : float {
@@ -103,7 +103,7 @@ class StandOnDiamond extends Microgame implements Listener {
 			$stick = VanillaItems::STICK();
 			$stick->setCustomName($this->plugin->getTranslator()->translate($player, "microgame.item.powerstick"));
 			$stick->addEnchantment(new EnchantmentInstance($knockback, self::KNOCKBACK_LEVEL));
-			$player->setGamemode(GameMode::ADVENTURE());
+			$player->setGamemode(GameMode::ADVENTURE);
 			$player->getInventory()->setItem(0, $stick);
 			$player->getInventory()->setHeldItemIndex(0);
 		}

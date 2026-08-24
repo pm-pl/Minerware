@@ -22,29 +22,10 @@ declare(strict_types=1);
 
 namespace LatamPMDevs\minerware\arena;
 
-use pocketmine\utils\EnumTrait;
-
-/**
- * This doc-block is generated automatically, do not modify it manually.
- * This must be regenerated whenever registry members are added, removed or changed.
- * @generate-registry-docblock
- *
- * @method static Status WAITING()
- * @method static Status STARTING()
- * @method static Status INGAME()
- * @method static Status INBETWEEN()
- * @method static Status ENDING()
- */
-final class Status {
-	use EnumTrait;
-
-	protected static function setup() : void {
-		self::registerAll(
-			new self("waiting"),
-			new self("starting"),
-			new self("inbetween"),
-			new self("ingame"),
-			new self("ending")
-		);
-	}
+enum Status {
+	case WAITING;
+	case STARTING;
+	case INBETWEEN;
+	case INGAME;
+	case ENDING;
 }

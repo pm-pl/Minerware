@@ -110,7 +110,7 @@ final class Cage {
 			$this->set();
 		}
 		Utils::initPlayer($player);
-		$player->setGamemode(GameMode::ADVENTURE());
+		$player->setGamemode(GameMode::ADVENTURE);
 		$player->teleport($this->offsetPosition);
 		$this->players[$player->getId()] = $player;
 	}

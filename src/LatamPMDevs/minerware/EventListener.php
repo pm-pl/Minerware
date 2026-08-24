@@ -63,7 +63,7 @@ final class EventListener implements Listener {
 	 * @priority MONITOR
 	 */
 	public function onPlayerWinMicrogame(PlayerWinMicrogameEvent $event) : void {
-		if ($event->getMicrogame()->getLevel()->equals(Level::BOSS())) {
+		if ($event->getMicrogame()->getLevel() === Level::BOSS) {
 			$this->dataManager->addBossgamesWon($event->getPlayer()->getName(), 1);
 		} else {
 			$this->dataManager->addMicrogamesWon($event->getPlayer()->getName(), 1);

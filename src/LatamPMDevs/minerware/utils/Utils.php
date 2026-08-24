@@ -279,19 +279,19 @@ final class Utils {
 	 */
 	public static function DyeColor2TextFormat(DyeColor $dyeColor) : string {
 		return match (true) {
-			$dyeColor->equals(DyeColor::ORANGE()) => TextFormat::GOLD,
-			$dyeColor->equals(DyeColor::MAGENTA()) => TextFormat::DARK_PURPLE,
-			$dyeColor->equals(DyeColor::LIGHT_BLUE()) => TextFormat::AQUA,
-			$dyeColor->equals(DyeColor::LIME()) => TextFormat::GREEN,
-			$dyeColor->equals(DyeColor::PINK()) => TextFormat::LIGHT_PURPLE,
-			$dyeColor->equals(DyeColor::GRAY()) => TextFormat::DARK_GRAY,
-			$dyeColor->equals(DyeColor::LIGHT_GRAY()) => TextFormat::GRAY,
-			$dyeColor->equals(DyeColor::CYAN()) => TextFormat::DARK_AQUA,
-			$dyeColor->equals(DyeColor::BLUE()) => TextFormat::BLUE,
-			$dyeColor->equals(DyeColor::GREEN()) => TextFormat::DARK_GREEN,
-			$dyeColor->equals(DyeColor::RED()) => TextFormat::DARK_RED,
-			$dyeColor->equals(DyeColor::BLACK()) => TextFormat::BLACK,
-			$dyeColor->equals(DyeColor::YELLOW()) => TextFormat::YELLOW,
+			$dyeColor->equals(DyeColor::ORANGE) => TextFormat::GOLD,
+			$dyeColor->equals(DyeColor::MAGENTA) => TextFormat::DARK_PURPLE,
+			$dyeColor->equals(DyeColor::LIGHT_BLUE) => TextFormat::AQUA,
+			$dyeColor->equals(DyeColor::LIME) => TextFormat::GREEN,
+			$dyeColor->equals(DyeColor::PINK) => TextFormat::LIGHT_PURPLE,
+			$dyeColor->equals(DyeColor::GRAY) => TextFormat::DARK_GRAY,
+			$dyeColor->equals(DyeColor::LIGHT_GRAY) => TextFormat::GRAY,
+			$dyeColor->equals(DyeColor::CYAN) => TextFormat::DARK_AQUA,
+			$dyeColor->equals(DyeColor::BLUE) => TextFormat::BLUE,
+			$dyeColor->equals(DyeColor::GREEN) => TextFormat::DARK_GREEN,
+			$dyeColor->equals(DyeColor::RED) => TextFormat::DARK_RED,
+			$dyeColor->equals(DyeColor::BLACK) => TextFormat::BLACK,
+			$dyeColor->equals(DyeColor::YELLOW) => TextFormat::YELLOW,
 			default => TextFormat::WHITE
 		};
 	}

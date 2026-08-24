@@ -78,7 +78,7 @@ class FillTheTank extends Microgame implements Listener {
 	}
 
 	public function getLevel() : Level {
-		return Level::NORMAL();
+		return Level::NORMAL;
 	}
 
 	public function getGameDuration() : float {
@@ -169,7 +169,7 @@ class FillTheTank extends Microgame implements Listener {
 		$players = $this->arena->getPlayers();
 		foreach ($players as $player) {
 			Utils::initPlayer($player);
-			$player->setGamemode(GameMode::SURVIVAL());
+			$player->setGamemode(GameMode::SURVIVAL);
 			$player->getInventory()->setItem(0, VanillaItems::BUCKET());
 			$player->getInventory()->setHeldItemIndex(0);
 			foreach ($players as $pl) {

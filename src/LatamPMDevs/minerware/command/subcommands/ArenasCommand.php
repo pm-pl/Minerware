@@ -88,7 +88,7 @@ final class ArenasCommand extends BaseSubCommand {
 					return;
 				}
 
-				if (!$arena->getStatus()->equals(Status::STARTING()) ||
+				if ($arena->getStatus() !== Status::STARTING ||
 					count($arena->getPlayers()) < $arena->getMinPlayers()
 				) {
 					$sender->sendMessage($this->plugin->getTranslator()->translate($sender, "game.arena.needMorePlayers"));

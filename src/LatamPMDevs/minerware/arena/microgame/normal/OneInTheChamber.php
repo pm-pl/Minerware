@@ -59,7 +59,7 @@ class OneInTheChamber extends Microgame implements Listener {
 	}
 
 	public function getLevel() : Level {
-		return Level::NORMAL();
+		return Level::NORMAL;
 	}
 
 	public function getGameDuration() : float {
@@ -85,7 +85,7 @@ class OneInTheChamber extends Microgame implements Listener {
 
 		foreach ($this->arena->getPlayers() as $player) {
 			Utils::initPlayer($player);
-			$player->setGamemode(GameMode::ADVENTURE());
+			$player->setGamemode(GameMode::ADVENTURE);
 			$player->getInventory()->setItem(0, VanillaItems::BOW());
 			$player->getInventory()->setItem(1, VanillaItems::WOODEN_SWORD());
 			$player->getInventory()->setItem(8, VanillaItems::ARROW());

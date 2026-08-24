@@ -61,7 +61,7 @@ class StackBlocks extends Microgame implements Listener {
 	}
 
 	public function getLevel() : Level {
-		return Level::NORMAL();
+		return Level::NORMAL;
 	}
 
 	public function getGameDuration() : float {
@@ -79,7 +79,7 @@ class StackBlocks extends Microgame implements Listener {
 		$i = 0;
 		foreach ($this->arena->getPlayers() as $player) {
 			Utils::initPlayer($player);
-			$player->setGamemode(GameMode::SURVIVAL());
+			$player->setGamemode(GameMode::SURVIVAL);
 			if ($i < count($dyeColors)) {
 				$block = VanillaBlocks::WOOL()->setColor($dyeColors[$i]);
 				$this->setAssignedBlock($player, $block);

@@ -44,24 +44,24 @@ final class ArenaTask extends Task {
 		$status = $arena->getStatus();
 		$players = $arena->getPlayers();
 		$world = $arena->getWorld();
-		switch (true) {
-			case ($status->equals(Status::WAITING())):
+		switch ($status) {
+			case Status::WAITING:
 				if (count($players) < $arena->getMinPlayers()) {
 					foreach ($players as $player) {
 						$player->sendTip($this->plugin->getTranslator()->translate($player, "game.arena.needMorePlayers"));
 					}
 				} else {
-					$arena->setStatus(Status::STARTING());
+					$arena->setStatus(Status::STARTING);
 				}
 				break;
 
-			case ($status->equals(Status::STARTING())):
+			case Status::STARTING:
 				if (count($players) < $arena->getMinPlayers()) {
 					foreach ($players as $player) {
 						$player->sendMessage($this->plugin->getTranslator()->translate($player, "game.arena.countCancelled"));
 					}
 					$arena->startingtime = $arena->defaultStartingtime;
-					$arena->setStatus(Status::WAITING());
+					$arena->setStatus(Status::WAITING);
 				} else {
 					if ($arena->startingtime > 15 && count($players) >= Arena::MAX_PLAYERS) {
 						foreach ($players as $player) {
@@ -83,7 +83,7 @@ final class ArenaTask extends Task {
 				$arena->startingtime--;
 				break;
 
-			case ($status->equals(Status::INBETWEEN())):
+			case Status::INBETWEEN:
 				if ($arena->inbetweentime === 3) {
 					if ($arena->getNextMicrogame() === null) {
 						$arena->end();
@@ -100,7 +100,7 @@ final class ArenaTask extends Task {
 					}
 				}
 				if ($arena->inbetweentime <= 3 && $arena->inbetweentime >= 1) {
-					$isBoss = $arena->getNextMicrogameNonNull()->getLevel()->equals(Level::BOSS());
+					$isBoss = $arena->getNextMicrogameNonNull()->getLevel() === Level::BOSS;
 					foreach ($players as $player) {
 						if ($isBoss) {
 							$player->sendTitle("§6BOSS GAME", "§c" . $arena->getNextMicrogameNonNull()->getName(), 10, 10, 10);
@@ -113,20 +113,20 @@ final class ArenaTask extends Task {
 					foreach ($players as $player) {
 						$player->sendTitle("§6GO", "", 10, 10, 10);
 					}
-					$arena->setStatus(Status::INGAME());
+					$arena->setStatus(Status::INGAME);
 					$arena->inbetweentime = Arena::INBETWEEN_TIME;
 					$arena->startNextMicrogame();
 				}
 				$arena->inbetweentime--;
 				break;
 
-			case ($status->equals(Status::INGAME())):
+			case Status::INGAME:
 				if ($arena->getCurrentMicrogame() === null) {
-					$this->arena->setStatus(Status::INBETWEEN());
+					$this->arena->setStatus(Status::INBETWEEN);
 				}
 				break;
 
-			case ($status->equals(Status::ENDING())):
+			case Status::ENDING:
 				if ($arena->endingtime <= 0) {
 					foreach ($players as $player) {
 						ArenaManager::getInstance()->join($player);

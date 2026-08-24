@@ -54,7 +54,7 @@ class LastKnightStanding extends Microgame implements Listener {
 	}
 
 	public function getLevel() : Level {
-		return Level::NORMAL();
+		return Level::NORMAL;
 	}
 
 	public function getGameDuration() : float {
@@ -78,7 +78,7 @@ class LastKnightStanding extends Microgame implements Listener {
 			$sword = VanillaItems::DIAMOND_SWORD();
 			$sword->setCustomName($this->plugin->getTranslator()->translate($player, "microgame.item.sword"));
 			$sword->addEnchantment(new EnchantmentInstance($sharpness, self::SHARPNESS_LEVEL));
-			$player->setGamemode(GameMode::ADVENTURE());
+			$player->setGamemode(GameMode::ADVENTURE);
 			$player->getInventory()->setItem(0, $sword);
 			$player->getArmorInventory()->setItem($helmet->getArmorSlot(), $helmet);
 			$player->getArmorInventory()->setItem($chestplate->getArmorSlot(), $chestplate);

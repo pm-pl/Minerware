@@ -62,7 +62,7 @@ class IgniteTNT extends Microgame implements Listener {
 	}
 
 	public function getLevel() : Level {
-		return Level::NORMAL();
+		return Level::NORMAL;
 	}
 
 	public function getGameDuration() : float {
@@ -87,7 +87,7 @@ class IgniteTNT extends Microgame implements Listener {
 
 		foreach ($this->arena->getPlayers() as $player) {
 			Utils::initPlayer($player);
-			$player->setGamemode(GameMode::SURVIVAL());
+			$player->setGamemode(GameMode::SURVIVAL);
 			$player->getInventory()->setItem(0, VanillaItems::FLINT_AND_STEEL());
 			$player->getInventory()->setHeldItemIndex(0);
 

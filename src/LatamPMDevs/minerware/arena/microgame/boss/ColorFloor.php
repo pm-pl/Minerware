@@ -80,7 +80,7 @@ class ColorFloor extends Microgame implements Listener {
 	}
 
 	public function getLevel() : Level {
-		return Level::BOSS();
+		return Level::BOSS;
 	}
 
 	public function getGameDuration() : float {
@@ -109,20 +109,20 @@ class ColorFloor extends Microgame implements Listener {
 			$this->changedBlocks[] = $changedBlock;
 		}
 
-		$dyeColors = DyeColor::getAll();
+		$dyeColors = DyeColor::cases();
 		shuffle($dyeColors);
 		$i = 0;
 		foreach ($this->arena->getPlayers() as $player) {
 			Utils::initPlayer($player);
-			$player->setGamemode(GameMode::SURVIVAL());
-			if ($dyeColors[$i]->equals(DyeColor::WHITE())) {
+			$player->setGamemode(GameMode::SURVIVAL);
+			if ($dyeColors[$i]->equals(DyeColor::WHITE)) {
 				$i++; // Players must not have the color white
 			}
 			if ($i < count($dyeColors)) {
 				$this->setAssignedColor($player, $dyeColors[$i]);
 				$hoe = VanillaItems::DIAMOND_HOE();
 				$hoe->setCustomName($this->plugin->getTranslator()->translate($player, "microgame.item.colorizer"));
-				$missile = VanillaItems::SPLASH_POTION()->setType(PotionType::LEAPING());
+				$missile = VanillaItems::SPLASH_POTION()->setType(PotionType::LEAPING);
 				$missile->setCustomName($this->plugin->getTranslator()->translate($player, "microgame.item.colormissile"));
 				$missile->setCount(self::COLOR_MISSILE_COUNT);
 				$assignedColor = VanillaBlocks::STAINED_CLAY()->setColor($dyeColors[$i])->asItem();
@@ -237,7 +237,7 @@ class ColorFloor extends Microgame implements Listener {
 		if ($blockColor->equals($color)) {
 			return;
 		}
-		if (!$blockColor->equals(DyeColor::WHITE())) {
+		if (!$blockColor->equals(DyeColor::WHITE)) {
 			$this->coloredBlocksCount[$blockColor->id()] = $this->getBlocksOfColor($blockColor) - 1;
 		}
 		$this->arena->getWorld()->setBlock($block->getPosition(), VanillaBlocks::STAINED_CLAY()->setColor($color), false);
@@ -311,7 +311,7 @@ class ColorFloor extends Microgame implements Listener {
 			if ($block instanceof StainedHardenedClay) {
 				$assignedColor = $this->getAssignedColor($player);
 				$blockColor = $block->getColor();
-				if (!$blockColor->equals(DyeColor::WHITE()) && !$blockColor->equals($assignedColor)) {
+				if (!$blockColor->equals(DyeColor::WHITE) && !$blockColor->equals($assignedColor)) {
 					$player->sendMessage($this->plugin->getTranslator()->translate($player, "microgame.colorfloor.onlymissile"));
 				} elseif ($this->hasColoredBlocks($player) && !$this->isNextToColor($block, $assignedColor)) {
 					$player->sendMessage($this->plugin->getTranslator()->translate($player, "microgame.colorfloor.nextto"));
@@ -332,7 +332,7 @@ class ColorFloor extends Microgame implements Listener {
 		if (!$player instanceof Player) return;
 		if (!$this->arena->inGame($player)) return;
 		$item = $player->getInventory()->getItemInHand();
-		if (!$item->equals(VanillaItems::SPLASH_POTION()->setType(PotionType::LEAPING()), true, false)) return;
+		if (!$item->equals(VanillaItems::SPLASH_POTION()->setType(PotionType::LEAPING), true, false)) return;
 		if (!$projectile instanceof SplashPotion) return;
 		if ($this->getAssignedColor($player) !== null) {
 			$event->cancel();
