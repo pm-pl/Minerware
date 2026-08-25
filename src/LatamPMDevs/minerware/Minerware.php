@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  *  ███╗   ███╗██╗███╗   ██╗███████╗██████╗ ██╗    ██╗ █████╗ ██████╗ ███████╗
  *  ████╗ ████║██║████╗  ██║██╔════╝██╔══██╗██║    ██║██╔══██╗██╔══██╗██╔════╝
  *  ██╔████╔██║██║██╔██╗ ██║█████╗  ██████╔╝██║ █╗ ██║███████║██████╔╝█████╗
@@ -15,17 +15,17 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Copyright 2022 © LatamPMDevs
+ * @author LatamPMDevs
  */
 
 declare(strict_types=1);
 
 namespace LatamPMDevs\minerware;
 
-use LatamPMDevs\minerware\libs\_303fa6b3d7f3fa8f\CortexPE\Commando\PacketHooker;
-use LatamPMDevs\minerware\libs\_303fa6b3d7f3fa8f\IvanCraft623\fakeblocks\FakeBlockManager;
-use LatamPMDevs\minerware\libs\_303fa6b3d7f3fa8f\IvanCraft623\languages\Translator;
-use LatamPMDevs\minerware\libs\_303fa6b3d7f3fa8f\JackMD\ConfigUpdater\ConfigUpdater;
+use LatamPMDevs\minerware\libs\_6973c7bfbec88639\CortexPE\Commando\PacketHooker;
+use LatamPMDevs\minerware\libs\_6973c7bfbec88639\IvanCraft623\fakeblocks\FakeBlockManager;
+use LatamPMDevs\minerware\libs\_6973c7bfbec88639\IvanCraft623\languages\Translator;
+use LatamPMDevs\minerware\libs\_6973c7bfbec88639\JackMD\ConfigUpdater\ConfigUpdater;
 use LatamPMDevs\minerware\arena\ArenaManager;
 use LatamPMDevs\minerware\command\MinerwareCommand;
 use LatamPMDevs\minerware\database\DataManager;

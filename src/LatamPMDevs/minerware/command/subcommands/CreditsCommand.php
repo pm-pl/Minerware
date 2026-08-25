@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  *  ███╗   ███╗██╗███╗   ██╗███████╗██████╗ ██╗    ██╗ █████╗ ██████╗ ███████╗
  *  ████╗ ████║██║████╗  ██║██╔════╝██╔══██╗██║    ██║██╔══██╗██╔══██╗██╔════╝
  *  ██╔████╔██║██║██╔██╗ ██║█████╗  ██████╔╝██║ █╗ ██║███████║██████╔╝█████╗
@@ -15,15 +15,15 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Copyright 2022 © LatamPMDevs
+ * @author LatamPMDevs
  */
 
 declare(strict_types=1);
 
 namespace LatamPMDevs\minerware\command\subcommands;
 
-use LatamPMDevs\minerware\libs\_303fa6b3d7f3fa8f\CortexPE\Commando\BaseCommand;
-use LatamPMDevs\minerware\libs\_303fa6b3d7f3fa8f\CortexPE\Commando\BaseSubCommand;
+use LatamPMDevs\minerware\libs\_6973c7bfbec88639\CortexPE\Commando\BaseCommand;
+use LatamPMDevs\minerware\libs\_6973c7bfbec88639\CortexPE\Commando\BaseSubCommand;
 use LatamPMDevs\minerware\Minerware;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
