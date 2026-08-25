@@ -20,21 +20,13 @@
 
 declare(strict_types=1);
 
-namespace LatamPMDevs\minerware\arena;
+namespace LatamPMDevs\minerware\map;
 
 use LatamPMDevs\minerware\database\DataHolder;
-use LatamPMDevs\minerware\Minerware;
 use LatamPMDevs\minerware\utils\Utils;
 use pocketmine\math\Vector3;
-use pocketmine\utils\AssumptionFailedError;
-use pocketmine\world\World;
-use ZipArchive;
-use function mkdir;
 
 final class Map {
-
-	/** @var Map[] */
-	public static array $maps = [];
 
 	public const PLATFORM_X_SIZE = 24;
 	public const PLATFORM_Z_SIZE = 24;
@@ -67,16 +59,6 @@ final class Map {
 
 	private Vector3 $losersCage;
 
-	public static function getByName(string $name) : ?self {
-		foreach (self::$maps as $map) {
-			if ($map->getName() === $name) {
-				return $map;
-			}
-		}
-
-		return null;
-	}
-
 	public function __construct(private DataHolder $data) {
 		$this->name = $data->getString("name");
 
@@ -95,8 +77,6 @@ final class Map {
 		$cages = $data->getArray("cages");
 		$this->winnersCage = new Vector3($cages["winners"]["X"], $cages["winners"]["Y"], $cages["winners"]["Z"]);
 		$this->losersCage = new Vector3($cages["losers"]["X"], $cages["losers"]["Y"], $cages["losers"]["Z"]);
-
-		self::$maps[] = $this;
 	}
 
 	public function getName() : string {
@@ -128,32 +108,5 @@ final class Map {
 
 	public function getLosersCage() : Vector3 {
 		return $this->losersCage;
-	}
-
-	public function getData() : DataHolder {
-		return $this->data;
-	}
-
-	public function getZip() : string {
-		return Minerware::getInstance()->getDataFolder() . "database" . DIRECTORY_SEPARATOR . "backups" . DIRECTORY_SEPARATOR . $this->name . ".zip";
-	}
-
-	public function generateWorld(string $uniqueId) : World {
-		$worldPath = Minerware::getInstance()->getServer()->getDataPath() . "worlds" . DIRECTORY_SEPARATOR . $this->name . "-" . $uniqueId . DIRECTORY_SEPARATOR;
-
-		# Create files
-		@mkdir($worldPath);
-		$backup = $this->getZip();
-		$zip = new ZipArchive();
-		$zip->open($backup);
-		$zip->extractTo($worldPath);
-		$zip->close();
-
-		#Get World
-		if (Minerware::getInstance()->getServer()->getWorldManager()->loadWorld($this->name . "-" . $uniqueId, true)) {
-			return Minerware::getInstance()->getServer()->getWorldManager()->getWorldByName($this->name . "-" . $uniqueId);
-		}
-
-		throw new AssumptionFailedError("Error Generating world");
 	}
 }

@@ -22,12 +22,11 @@ declare(strict_types=1);
 
 namespace LatamPMDevs\minerware\arena\microgame\normal;
 
-use LatamPMDevs\minerware\arena\Map;
 use LatamPMDevs\minerware\arena\microgame\Level;
 use LatamPMDevs\minerware\arena\microgame\Microgame;
+use LatamPMDevs\minerware\map\Map;
 use LatamPMDevs\minerware\utils\Utils;
 
-use pocketmine\block\Block;
 use pocketmine\block\TNT;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\entity\object\PrimedTNT;
@@ -35,22 +34,15 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityPreExplodeEvent;
-use pocketmine\event\HandlerListManager;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\item\FlintSteel;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
-use pocketmine\utils\AssumptionFailedError;
 use function array_rand;
-use function array_reverse;
-use function asort;
 
 class IgniteTNT extends Microgame implements Listener {
-
-	/** @var Block[] */
-	protected array $changedBlocks = [];
 
 	/** @var array<int, int> */
 	protected array $ignitedTNTs = [];
@@ -97,25 +89,21 @@ class IgniteTNT extends Microgame implements Listener {
 		parent::start();
 	}
 
-	public function tick() : void {
+public function tick() : void {
 		$timeLeft = $this->getTimeLeft();
 		if ($timeLeft <= 0) {
 			foreach ($this->arena->getPlayers() as $player) {
-				if (!$this->isWinner($player) && !$this->isLoser($player)) {
+				if (!$this->isLoser($player) && !$this->isWinner($player)) {
 					$this->addLoser($player);
 				}
 			}
 			$this->arena->endCurrentMicrogame();
 			return;
 		}
-		foreach ($this->arena->getPlayers() as $player) {
-			$player->getXpManager()->setXpAndProgress((int) $timeLeft, $timeLeft / $this->getGameDuration());
-		}
+		$this->updateTimeBar($timeLeft);
 	}
 
 	public function end() : void {
-		HandlerListManager::global()->unregisterAll($this);
-
 		$players = $this->arena->getPlayers();
 		foreach ($players as $player) {
 			$player->sendMessage($this->plugin->getTranslator()->translate(
@@ -129,9 +117,6 @@ class IgniteTNT extends Microgame implements Listener {
 				$player->sendMessage($this->plugin->getTranslator()->translate($player, "microgame.ignitetnt.lose"));
 			}
 		}
-		foreach ($this->changedBlocks as $block) {
-			$this->arena->getWorld()->setBlock($block->getPosition(), $block, false);
-		}
 		parent::end();
 	}
 
@@ -143,11 +128,7 @@ class IgniteTNT extends Microgame implements Listener {
 	 * @return array<int, int>
 	 */
 	public function getIgnitedTNTsOrderedByHigherScore() : array {
-		$array = $this->ignitedTNTs;
-		if (asort($array) === false) {
-			throw new AssumptionFailedError("Failed to sort score");
-		}
-		return array_reverse($array, true);
+		return Utils::sortScoresDescending($this->ignitedTNTs);
 	}
 
 	public function getTotalIgnitedTNTs() : int {

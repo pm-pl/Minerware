@@ -20,46 +20,45 @@
 
 declare(strict_types=1);
 
-namespace LatamPMDevs\minerware\utils;
+namespace LatamPMDevs\minerware\map;
 
-use pocketmine\player\Player;
+use pocketmine\utils\SingletonTrait;
+use function array_rand;
+use function count;
 
-final class PointHolder {
+final class MapManager {
+	use SingletonTrait;
 
-	/** @var array<int, int> */
-	private array $points = [];
+	/** @var Map[] */
+	private array $maps = [];
 
-	public function addPlayer(Player $player) : void {
-		$this->points[$player->getId()] = 0;
+	public function add(Map $map) : void {
+		$this->maps[$map->getName()] = $map;
 	}
 
-	public function removePlayer(Player $player) : void {
-		unset($this->points[$player->getId()]);
-	}
-
-	public function getPlayerPoints(Player $player) : ?int {
-		return $this->points[$player->getId()] ?? null;
-	}
-
-	public function addPlayerPoint(Player $player, int $points = 1) : void {
-		$this->points[$player->getId()] += $points;
+	public function remove(Map $map) : void {
+		unset($this->maps[$map->getName()]);
 	}
 
 	/**
-	 * @return array<int, int>
+	 * @return Map[]
 	 */
-	public function getPoints() : array {
-		return $this->points;
+	public function getAll() : array {
+		return $this->maps;
 	}
 
-	public function clear() : void {
-		$this->points = [];
+	public function getByName(string $name) : ?Map {
+		return $this->maps[$name] ?? null;
 	}
 
-	/**
-	 * @return array<int, int>
-	 */
-	public function getOrderedByHigherScore() : array {
-		return Utils::sortScoresDescending($this->points);
+	public function getRandom() : ?Map {
+		if (count($this->maps) === 0) {
+			return null;
+		}
+		return $this->maps[array_rand($this->maps)];
+	}
+
+	public function getCount() : int {
+		return count($this->maps);
 	}
 }

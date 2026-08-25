@@ -32,23 +32,16 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\HandlerListManager;
 use pocketmine\event\Listener;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
-use pocketmine\utils\AssumptionFailedError;
 use function array_key_first;
-use function array_reverse;
-use function asort;
 use function count;
 use function shuffle;
 
 class StackBlocks extends Microgame implements Listener {
 
 	public const STACK_SIZE = 10;
-
-	/** @var Block[] */
-	protected array $changedBlocks = [];
 
 	/** @var array<int, Block> */
 	protected array $assignedBlock = [];
@@ -105,14 +98,10 @@ class StackBlocks extends Microgame implements Listener {
 			$this->arena->endCurrentMicrogame();
 			return;
 		}
-		foreach ($this->arena->getPlayers() as $player) {
-			$player->getXpManager()->setXpAndProgress((int) $timeLeft, $timeLeft / $this->getGameDuration());
-		}
+		$this->updateTimeBar($timeLeft);
 	}
 
 	public function end() : void {
-		HandlerListManager::global()->unregisterAll($this);
-
 		$players = $this->arena->getPlayers();
 		$stacker = null;
 		$stackedBlocks = $this->getStackedBlocksOrderedByHigherScore();
@@ -142,9 +131,6 @@ class StackBlocks extends Microgame implements Listener {
 				));
 			}
 		}
-		foreach ($this->changedBlocks as $block) {
-			$this->arena->getWorld()->setBlock($block->getPosition(), $block, false);
-		}
 		parent::end();
 	}
 
@@ -164,11 +150,7 @@ class StackBlocks extends Microgame implements Listener {
 	 * @return array<int, int>
 	 */
 	public function getStackedBlocksOrderedByHigherScore() : array {
-		$array = $this->stackedBlocks;
-		if (asort($array) === false) {
-			throw new AssumptionFailedError("Failed to sort score");
-		}
-		return array_reverse($array, true);
+		return Utils::sortScoresDescending($this->stackedBlocks);
 	}
 
 	# Listener

@@ -26,10 +26,10 @@ use CortexPE\Commando\BaseCommand;
 use CortexPE\Commando\BaseSubCommand;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use LatamPMDevs\minerware\arena\ArenaManager;
-use LatamPMDevs\minerware\arena\MapRegisterer;
 use LatamPMDevs\minerware\arena\Status;
 use LatamPMDevs\minerware\command\args\ArenaActionArgument;
 use LatamPMDevs\minerware\command\args\WorldArgument;
+use LatamPMDevs\minerware\map\MapRegisterer;
 use LatamPMDevs\minerware\Minerware;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
@@ -94,7 +94,7 @@ final class ArenasCommand extends BaseSubCommand {
 					$sender->sendMessage($this->plugin->getTranslator()->translate($sender, "game.arena.needMorePlayers"));
 				}
 
-				$arena->startingtime = 5;
+				$arena->forceStart();
 			break;
 		}
 	}

@@ -30,17 +30,13 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\HandlerListManager;
 use pocketmine\event\Listener;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\item\enchantment\VanillaEnchantments;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
-use pocketmine\utils\AssumptionFailedError;
 use function array_key_first;
-use function array_reverse;
-use function asort;
 
 class LastKnightStanding extends Microgame implements Listener {
 
@@ -66,8 +62,6 @@ class LastKnightStanding extends Microgame implements Listener {
 	}
 
 	public function start() : void {
-		$this->plugin->getServer()->getPluginManager()->registerEvents($this, $this->plugin);
-
 		$helmet = VanillaItems::IRON_HELMET();
 		$chestplate = VanillaItems::IRON_CHESTPLATE();
 		$leggings = VanillaItems::LEATHER_PANTS();
@@ -101,14 +95,10 @@ class LastKnightStanding extends Microgame implements Listener {
 			$this->arena->endCurrentMicrogame();
 			return;
 		}
-		foreach ($this->arena->getPlayers() as $player) {
-			$player->getXpManager()->setXpAndProgress((int) $timeLeft, $timeLeft / $this->getGameDuration());
-		}
+		$this->updateTimeBar($timeLeft);
 	}
 
 	public function end() : void {
-		HandlerListManager::global()->unregisterAll($this);
-
 		$players = $this->arena->getPlayers();
 		$killer = null;
 		$kills = $this->getKillsOrderedByHigherScore();
@@ -141,11 +131,7 @@ class LastKnightStanding extends Microgame implements Listener {
 	 * @return array<int, int>
 	 */
 	public function getKillsOrderedByHigherScore() : array {
-		$array = $this->kills;
-		if (asort($array) === false) {
-			throw new AssumptionFailedError("Failed to sort score");
-		}
-		return array_reverse($array, true);
+		return Utils::sortScoresDescending($this->kills);
 	}
 
 	# Listener

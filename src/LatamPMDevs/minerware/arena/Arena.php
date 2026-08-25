@@ -33,6 +33,8 @@ use LatamPMDevs\minerware\event\arena\ArenaCreationEvent;
 use LatamPMDevs\minerware\event\arena\ArenaEndEvent;
 use LatamPMDevs\minerware\event\arena\PlayerJoinArenaEvent;
 use LatamPMDevs\minerware\event\arena\PlayerQuitArenaEvent;
+use LatamPMDevs\minerware\map\Map;
+use LatamPMDevs\minerware\map\MapWorldGenerator;
 use LatamPMDevs\minerware\Minerware;
 use LatamPMDevs\minerware\tasks\ArenaTask;
 use LatamPMDevs\minerware\utils\PointHolder;
@@ -96,13 +98,9 @@ final class Arena implements Listener {
 
 	private int $nextMicrogameIndex = 0;
 
-	public int $defaultStartingtime;
+	private int $countdown = 0;
 
-	public int $startingtime;
-
-	public int $inbetweentime = 11;
-
-	public int $endingtime = self::ENDING_TIME;
+	private int $countdownTotal = 0;
 
 	private Cage $winnersCage;
 
@@ -120,9 +118,8 @@ final class Arena implements Listener {
 
 	public function __construct(private string $id, private Map $map) {
 		$this->plugin = Minerware::getInstance();
-		$this->world = $this->map->generateWorld($this->id);
+		$this->world = MapWorldGenerator::generate($this->map, $this->id);
 		$this->minPlayers = DataManager::getInstance()->getMinimumStartingPlayers();
-		$this->startingtime = $this->defaultStartingtime = DataManager::getInstance()->getArenaStartingTime();
 		$this->status = Status::WAITING;
 		$this->pointHolder = new PointHolder();
 		$this->plugin->getScheduler()->scheduleRepeatingTask(new ArenaTask($this), 20);
@@ -196,14 +193,50 @@ final class Arena implements Listener {
 		if ($this->status === $status) {
 			return;
 		}
-		$ev = new ArenaChangeStatusEvent($this->status, $status, $this);
+		$ev = new ArenaChangeStatusEvent($this->status, $status, $this->getStatusDuration($status), $this);
 		$ev->call();
 		$this->status = $ev->getNewStatus();
+		$this->countdown = $this->countdownTotal = $ev->getCountdown();
 		foreach ($this->players as $player) {
 			if (ScoreFactory::hasObjective($player)) {
 				ScoreFactory::removeScoreLines($player, true);
 			}
 		}
+	}
+
+	/**
+	 * Default tick count a status lasts before the arena transitions again.
+	 */
+	public function getStatusDuration(Status $status) : int {
+		return match ($status) {
+			Status::STARTING => DataManager::getInstance()->getArenaStartingTime(),
+			Status::INBETWEEN => self::INBETWEEN_TIME,
+			Status::ENDING => self::ENDING_TIME,
+			default => 0,
+		};
+	}
+
+	public function getCountdown() : int {
+		return $this->countdown;
+	}
+
+	public function getCountdownTotal() : int {
+		return $this->countdownTotal;
+	}
+
+	public function setCountdown(int $countdown) : void {
+		$this->countdown = $countdown;
+	}
+
+	public function decrementCountdown() : void {
+		$this->countdown--;
+	}
+
+	public function forceStart() : void {
+		if ($this->status !== Status::STARTING) {
+			return;
+		}
+		$this->countdown = 5;
 	}
 
 	public function join(Player $player) : void {
@@ -456,7 +489,7 @@ final class Arena implements Listener {
 
 	public function start() : void {
 		if ($this->status !== Status::STARTING) {
-			throw new RuntimeException("Arena can only start during the staring status");
+			throw new RuntimeException("Arena can only start during the starting status");
 		}
 		$this->setStatus(Status::INBETWEEN);
 		$this->getPointHolder()->clear();

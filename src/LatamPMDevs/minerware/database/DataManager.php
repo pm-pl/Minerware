@@ -25,7 +25,8 @@ namespace LatamPMDevs\minerware\database;
 use Closure;
 use InvalidArgumentException;
 use IvanCraft623\languages\Language;
-use LatamPMDevs\minerware\arena\Map;
+use LatamPMDevs\minerware\map\Map;
+use LatamPMDevs\minerware\map\MapManager;
 use LatamPMDevs\minerware\Minerware;
 use pocketmine\utils\AssumptionFailedError;
 use pocketmine\utils\Config;
@@ -174,7 +175,7 @@ final class DataManager {
 			while (false !== ($entry = readdir($handle))) {
 				if ($entry !== '.' && $entry !== '..') {
 					$map = str_replace('.json', '', $entry);
-					new Map($this->getMapData($map));
+					MapManager::getInstance()->add(new Map($this->getMapData($map)));
 				}
 			}
 
@@ -214,7 +215,7 @@ final class DataManager {
 		$filePath = "maps" . DIRECTORY_SEPARATOR . $dataHolder->getString("name") . ".json";
 		$path = $this->pluginPath . "database" . DIRECTORY_SEPARATOR . $filePath;
 		(new Config($path, Config::JSON, $dataHolder->getAll()))->save();
-		Map::$maps[] = new Map($dataHolder);
+		MapManager::getInstance()->add(new Map($dataHolder));
 	}
 
 	public function getServerIp() : string {

@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace LatamPMDevs\minerware\arena;
+namespace LatamPMDevs\minerware\map;
 
 use LatamPMDevs\minerware\database\DataHolder;
 use LatamPMDevs\minerware\database\DataManager;

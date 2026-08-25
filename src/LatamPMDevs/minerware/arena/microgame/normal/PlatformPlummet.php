@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace LatamPMDevs\minerware\arena\microgame\normal;
 
 use InvalidArgumentException;
-use LatamPMDevs\minerware\arena\Map;
 use LatamPMDevs\minerware\arena\microgame\Level;
 use LatamPMDevs\minerware\arena\microgame\Microgame;
 use LatamPMDevs\minerware\entity\object\FallingBlock;
@@ -125,8 +124,6 @@ class PlatformPlummet extends Microgame implements Listener {
 	}
 
 	public function start() : void {
-		$this->plugin->getServer()->getPluginManager()->registerEvents($this, $this->plugin);
-
 		$map = $this->arena->getMap();
 		$minPos = $map->getPlatformMinPos();
 		$maxPos = $map->getPlatformMaxPos();
@@ -138,12 +135,7 @@ class PlatformPlummet extends Microgame implements Listener {
 		);
 		$this->breakablePlatforms = $this->platforms;
 
-		foreach (Map::MINI_PLATFORMS as $key => $value) {
-			foreach (Map::MINI_PLATFORMS[$key] as $blockPos) {
-				$this->changedBlocks[] = $world->getBlockAt((int) ($minPos->x + $blockPos[0]), (int) ($minPos->y + $blockPos[1]), (int) ($minPos->z + $blockPos[2]));
-				$world->setBlockAt((int) ($minPos->x + $blockPos[0]), (int) ($minPos->y + $blockPos[1]), (int) ($minPos->z + $blockPos[2]), VanillaBlocks::AIR(), true);
-			}
-		}
+		$this->setMiniPlatforms(VanillaBlocks::AIR(), true);
 		$platformsPerLine = ($maxPos->x - $minPos->x + 1) / $this->getPlatformSize();
 		foreach (array_rand($this->platforms, self::UNBREAKABLE_PLATFORMS) as $platformHash) {
 			unset($this->breakablePlatforms[$platformHash]);
@@ -246,9 +238,6 @@ class PlatformPlummet extends Microgame implements Listener {
 			} elseif ($this->isLoser($player)) {
 				$player->sendMessage($this->plugin->getTranslator()->translate($player, "microgame.platformplummet.lose"));
 			}
-		}
-		foreach ($this->changedBlocks as $block) {
-			$this->arena->getWorld()->setBlock($block->getPosition(), $block, false);
 		}
 		parent::end();
 	}

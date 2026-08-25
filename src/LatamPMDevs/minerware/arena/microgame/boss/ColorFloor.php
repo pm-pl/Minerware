@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace LatamPMDevs\minerware\arena\microgame\boss;
 
-use LatamPMDevs\minerware\arena\Map;
 use LatamPMDevs\minerware\arena\microgame\Level;
 use LatamPMDevs\minerware\arena\microgame\Microgame;
 use LatamPMDevs\minerware\entity\projectile\ColorMissile;
@@ -38,7 +37,6 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\ProjectileHitEvent;
 use pocketmine\event\entity\ProjectileLaunchEvent;
-use pocketmine\event\HandlerListManager;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\item\Hoe;
@@ -46,21 +44,15 @@ use pocketmine\item\PotionType;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
-use pocketmine\utils\AssumptionFailedError;
 use pocketmine\world\Position;
 use pocketmine\world\sound\ThrowSound;
-use function array_reverse;
 use function array_slice;
-use function asort;
 use function count;
 use function shuffle;
 
 class ColorFloor extends Microgame implements Listener {
 
 	public const COLOR_MISSILE_COUNT = 2;
-
-	/** @var Block[] */
-	protected array $changedBlocks = [];
 
 	/** @var array<int, DyeColor> */
 	protected array $assignedColor = [];
@@ -92,18 +84,11 @@ class ColorFloor extends Microgame implements Listener {
 	}
 
 	public function start() : void {
-		$this->plugin->getServer()->getPluginManager()->registerEvents($this, $this->plugin);
-
 		$map = $this->arena->getMap();
 		$world = $this->arena->getWorld();
 		$minPos = Position::fromObject($map->getPlatformMinPos(), $world);
 		$maxPos = Position::fromObject($map->getPlatformMaxPos(), $world);
-		foreach (Map::MINI_PLATFORMS as $key => $values) {
-			foreach ($values as $blockPos) {
-				$this->changedBlocks[] = $world->getBlockAt((int) ($minPos->x + $blockPos[0]), (int) ($minPos->y + $blockPos[1]), (int) ($minPos->z + $blockPos[2]));
-				$world->setBlockAt((int) ($minPos->x + $blockPos[0]), (int) ($minPos->y + $blockPos[1]), (int) ($minPos->z + $blockPos[2]), VanillaBlocks::AIR(), true);
-			}
-		}
+		$this->setMiniPlatforms(VanillaBlocks::AIR(), true);
 		foreach (Utils::fill($minPos, $maxPos, VanillaBlocks::STAINED_CLAY(), false) as $changedBlock) {
 			$this->blocksCount++;
 			$this->changedBlocks[] = $changedBlock;
@@ -115,7 +100,7 @@ class ColorFloor extends Microgame implements Listener {
 		foreach ($this->arena->getPlayers() as $player) {
 			Utils::initPlayer($player);
 			$player->setGamemode(GameMode::SURVIVAL);
-			if ($dyeColors[$i]->equals(DyeColor::WHITE)) {
+			if ($dyeColors[$i] === DyeColor::WHITE) {
 				$i++; // Players must not have the color white
 			}
 			if ($i < count($dyeColors)) {
@@ -161,14 +146,10 @@ class ColorFloor extends Microgame implements Listener {
 			$this->arena->endCurrentMicrogame();
 			return;
 		}
-		foreach ($this->arena->getPlayers() as $player) {
-			$player->getXpManager()->setXpAndProgress((int) $timeLeft, $timeLeft / $this->getGameDuration());
-		}
+		$this->updateTimeBar($timeLeft);
 	}
 
 	public function end() : void {
-		HandlerListManager::global()->unregisterAll($this);
-
 		$players = $this->arena->getPlayers();
 		$winners = $this->getWinners();
 		$winnersCount = count($winners);
@@ -201,9 +182,6 @@ class ColorFloor extends Microgame implements Listener {
 				));
 			}
 		}
-		foreach ($this->changedBlocks as $block) {
-			$this->arena->getWorld()->setBlock($block->getPosition(), $block, false);
-		}
 		parent::end();
 	}
 
@@ -234,10 +212,10 @@ class ColorFloor extends Microgame implements Listener {
 
 	public function color(StainedHardenedClay $block, DyeColor $color) : void {
 		$blockColor = $block->getColor();
-		if ($blockColor->equals($color)) {
+		if ($blockColor === $color) {
 			return;
 		}
-		if (!$blockColor->equals(DyeColor::WHITE)) {
+		if ($blockColor !== DyeColor::WHITE) {
 			$this->coloredBlocksCount[$blockColor->id()] = $this->getBlocksOfColor($blockColor) - 1;
 		}
 		$this->arena->getWorld()->setBlock($block->getPosition(), VanillaBlocks::STAINED_CLAY()->setColor($color), false);
@@ -249,11 +227,7 @@ class ColorFloor extends Microgame implements Listener {
 	 * @return array<int, int>
 	 */
 	public function getColoredBlocksOrderedByHigherScore() : array {
-		$array = $this->coloredBlocksCount;
-		if (asort($array) === false) {
-			throw new AssumptionFailedError("Failed to sort score");
-		}
-		return array_reverse($array, true);
+		return Utils::sortScoresDescending($this->coloredBlocksCount);
 	}
 
 	public function getTotalColoredBlocks() : int {
@@ -265,12 +239,12 @@ class ColorFloor extends Microgame implements Listener {
 	}
 
 	public function isNextToColor(Block $block, DyeColor $color) : bool {
-		if ($block instanceof StainedHardenedClay && $block->getColor()->equals($color)) {
+		if ($block instanceof StainedHardenedClay && $block->getColor() === $color) {
 			return true;
 		}
 		foreach ($block->getHorizontalSides() as $side) {
 			if ($side instanceof StainedHardenedClay) {
-				if ($side->getColor()->equals($color)) {
+				if ($side->getColor() === $color) {
 					return true;
 				}
 			}
@@ -311,7 +285,7 @@ class ColorFloor extends Microgame implements Listener {
 			if ($block instanceof StainedHardenedClay) {
 				$assignedColor = $this->getAssignedColor($player);
 				$blockColor = $block->getColor();
-				if (!$blockColor->equals(DyeColor::WHITE) && !$blockColor->equals($assignedColor)) {
+				if ($blockColor !== DyeColor::WHITE && $blockColor !== $assignedColor) {
 					$player->sendMessage($this->plugin->getTranslator()->translate($player, "microgame.colorfloor.onlymissile"));
 				} elseif ($this->hasColoredBlocks($player) && !$this->isNextToColor($block, $assignedColor)) {
 					$player->sendMessage($this->plugin->getTranslator()->translate($player, "microgame.colorfloor.nextto"));

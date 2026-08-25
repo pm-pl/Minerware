@@ -22,13 +22,12 @@ declare(strict_types=1);
 
 namespace LatamPMDevs\minerware\arena\microgame\normal;
 
-use LatamPMDevs\minerware\arena\Map;
 use LatamPMDevs\minerware\arena\microgame\Level;
 use LatamPMDevs\minerware\arena\microgame\Microgame;
 use LatamPMDevs\minerware\entity\object\TextEntity;
+use LatamPMDevs\minerware\map\Map;
 use LatamPMDevs\minerware\utils\Utils;
 
-use pocketmine\block\Block;
 use pocketmine\block\Chest;
 use pocketmine\block\StainedHardenedClay;
 use pocketmine\block\utils\DyeColor;
@@ -39,7 +38,6 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByChildEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\HandlerListManager;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerMoveEvent;
@@ -74,9 +72,6 @@ class NerdPole extends Microgame implements Listener {
 	/** @var array<int, Player> */
 	protected array $claimed = [];
 
-	/** @var Block[] */
-	protected array $changedBlocks = [];
-
 	public function getName() : string {
 		return "Nerd Pole";
 	}
@@ -94,8 +89,6 @@ class NerdPole extends Microgame implements Listener {
 	}
 
 	public function start() : void {
-		$this->plugin->getServer()->getPluginManager()->registerEvents($this, $this->plugin);
-
 		$map = $this->arena->getMap();
 		$minPos = $map->getPlatformMinPos();
 		$maxPos = $map->getPlatformMaxPos();
@@ -205,14 +198,10 @@ class NerdPole extends Microgame implements Listener {
 			$this->arena->endCurrentMicrogame();
 			return;
 		}
-		foreach ($this->arena->getPlayers() as $player) {
-			$player->getXpManager()->setXpAndProgress((int) $timeLeft, $timeLeft / $this->getGameDuration());
-		}
+		$this->updateTimeBar($timeLeft);
 	}
 
 	public function end() : void {
-		HandlerListManager::global()->unregisterAll($this);
-
 		$players = $this->arena->getPlayers();
 		foreach ($players as $player) {
 			if ($this->isWinner($player)) {
@@ -220,9 +209,6 @@ class NerdPole extends Microgame implements Listener {
 			} elseif ($this->isLoser($player)) {
 				$player->sendMessage($this->plugin->getTranslator()->translate($player, "microgame.nerdpole.lose"));
 			}
-		}
-		foreach ($this->changedBlocks as $block) {
-			$this->arena->getWorld()->setBlock($block->getPosition(), $block, false);
 		}
 		parent::end();
 	}

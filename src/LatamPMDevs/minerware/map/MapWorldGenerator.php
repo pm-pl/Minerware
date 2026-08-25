@@ -20,46 +20,36 @@
 
 declare(strict_types=1);
 
-namespace LatamPMDevs\minerware\utils;
+namespace LatamPMDevs\minerware\map;
 
-use pocketmine\player\Player;
+use LatamPMDevs\minerware\Minerware;
+use pocketmine\utils\AssumptionFailedError;
+use pocketmine\world\World;
+use ZipArchive;
+use function mkdir;
 
-final class PointHolder {
+final class MapWorldGenerator {
 
-	/** @var array<int, int> */
-	private array $points = [];
-
-	public function addPlayer(Player $player) : void {
-		$this->points[$player->getId()] = 0;
+	public static function getZip(Map $map) : string {
+		return Minerware::getInstance()->getDataFolder() . "database" . DIRECTORY_SEPARATOR . "backups" . DIRECTORY_SEPARATOR . $map->getName() . ".zip";
 	}
 
-	public function removePlayer(Player $player) : void {
-		unset($this->points[$player->getId()]);
-	}
+	public static function generate(Map $map, string $uniqueId) : World {
+		$worldPath = Minerware::getInstance()->getServer()->getDataPath() . "worlds" . DIRECTORY_SEPARATOR . $map->getName() . "-" . $uniqueId . DIRECTORY_SEPARATOR;
 
-	public function getPlayerPoints(Player $player) : ?int {
-		return $this->points[$player->getId()] ?? null;
-	}
+		# Create files
+		@mkdir($worldPath);
+		$backup = self::getZip($map);
+		$zip = new ZipArchive();
+		$zip->open($backup);
+		$zip->extractTo($worldPath);
+		$zip->close();
 
-	public function addPlayerPoint(Player $player, int $points = 1) : void {
-		$this->points[$player->getId()] += $points;
-	}
+		# Get World
+		if (Minerware::getInstance()->getServer()->getWorldManager()->loadWorld($map->getName() . "-" . $uniqueId, true)) {
+			return Minerware::getInstance()->getServer()->getWorldManager()->getWorldByName($map->getName() . "-" . $uniqueId);
+		}
 
-	/**
-	 * @return array<int, int>
-	 */
-	public function getPoints() : array {
-		return $this->points;
-	}
-
-	public function clear() : void {
-		$this->points = [];
-	}
-
-	/**
-	 * @return array<int, int>
-	 */
-	public function getOrderedByHigherScore() : array {
-		return Utils::sortScoresDescending($this->points);
+		throw new AssumptionFailedError("Error Generating world");
 	}
 }

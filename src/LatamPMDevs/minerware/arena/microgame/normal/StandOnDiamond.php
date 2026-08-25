@@ -22,30 +22,25 @@ declare(strict_types=1);
 
 namespace LatamPMDevs\minerware\arena\microgame\normal;
 
-use LatamPMDevs\minerware\arena\Map;
 use LatamPMDevs\minerware\arena\microgame\Level;
 use LatamPMDevs\minerware\arena\microgame\Microgame;
+use LatamPMDevs\minerware\map\Map;
 use LatamPMDevs\minerware\utils\Utils;
 
-use pocketmine\block\Block;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\HandlerListManager;
 use pocketmine\event\Listener;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\item\enchantment\VanillaEnchantments;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
-use pocketmine\utils\AssumptionFailedError;
 use pocketmine\world\Position;
 use function array_key_first;
 use function array_rand;
-use function array_reverse;
-use function asort;
 use function in_array;
 
 class StandOnDiamond extends Microgame implements Listener {
@@ -55,9 +50,6 @@ class StandOnDiamond extends Microgame implements Listener {
 	public const KNOCKBACK_LEVEL = 2;
 
 	public const FLOOR_BREAK_AT = 3;
-
-	/** @var Block[] */
-	protected array $changedBlocks = [];
 
 	/** @var array<int, int> */
 	protected array $hitsCount = [];
@@ -84,8 +76,6 @@ class StandOnDiamond extends Microgame implements Listener {
 	}
 
 	public function start() : void {
-		$this->plugin->getServer()->getPluginManager()->registerEvents($this, $this->plugin);
-
 		$map = $this->arena->getMap();
 		$minPos = $map->getPlatformMinPos();
 		$world = $this->arena->getWorld();
@@ -125,14 +115,10 @@ class StandOnDiamond extends Microgame implements Listener {
 		if ($timeLeft <= self::FLOOR_BREAK_AT && !$this->isFloorBroken) {
 			$this->breakFloor();
 		}
-		foreach ($this->arena->getPlayers() as $player) {
-			$player->getXpManager()->setXpAndProgress((int) $timeLeft, $timeLeft / $this->getGameDuration());
-		}
+		$this->updateTimeBar($timeLeft);
 	}
 
 	public function end() : void {
-		HandlerListManager::global()->unregisterAll($this);
-
 		$players = $this->arena->getPlayers();
 		$hits = $this->getPlayersHitsOrderedByHigherScore();
 		$hitter = null;
@@ -153,9 +139,6 @@ class StandOnDiamond extends Microgame implements Listener {
 			} elseif ($this->isLoser($player)) {
 				$player->sendMessage($this->plugin->getTranslator()->translate($player, "microgame.threwoffstage"));
 			}
-		}
-		foreach ($this->changedBlocks as $block) {
-			$this->arena->getWorld()->setBlock($block->getPosition(), $block, false);
 		}
 		parent::end();
 	}
@@ -195,11 +178,7 @@ class StandOnDiamond extends Microgame implements Listener {
 	 * @return array<int, int>
 	 */
 	public function getPlayersHitsOrderedByHigherScore() : array {
-		$array = $this->hitsCount;
-		if (asort($array) === false) {
-			throw new AssumptionFailedError("Failed to sort score");
-		}
-		return array_reverse($array, true);
+		return Utils::sortScoresDescending($this->hitsCount);
 	}
 
 	# Listener
