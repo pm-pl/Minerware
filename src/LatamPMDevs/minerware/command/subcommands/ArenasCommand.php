@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace LatamPMDevs\minerware\command\subcommands;
 
-use LatamPMDevs\minerware\libs\_6973c7bfbec88639\CortexPE\Commando\BaseCommand;
-use LatamPMDevs\minerware\libs\_6973c7bfbec88639\CortexPE\Commando\BaseSubCommand;
-use LatamPMDevs\minerware\libs\_6973c7bfbec88639\CortexPE\Commando\constraint\InGameRequiredConstraint;
+use LatamPMDevs\minerware\libs\_fe4864383218fa18\CortexPE\Commando\BaseCommand;
+use LatamPMDevs\minerware\libs\_fe4864383218fa18\CortexPE\Commando\BaseSubCommand;
+use LatamPMDevs\minerware\libs\_fe4864383218fa18\CortexPE\Commando\constraint\InGameRequiredConstraint;
 use LatamPMDevs\minerware\arena\ArenaManager;
 use LatamPMDevs\minerware\arena\Status;
 use LatamPMDevs\minerware\command\args\ArenaActionArgument;

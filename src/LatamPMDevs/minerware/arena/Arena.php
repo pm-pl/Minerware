@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace LatamPMDevs\minerware\arena;
 
 use InvalidArgumentException;
-use LatamPMDevs\minerware\libs\_6973c7bfbec88639\jackmd\scorefactory\ScoreFactory;
+use LatamPMDevs\minerware\libs\_fe4864383218fa18\jackmd\scorefactory\ScoreFactory;
 use LatamPMDevs\minerware\arena\microgame\Level;
 use LatamPMDevs\minerware\arena\microgame\Microgame;
 use LatamPMDevs\minerware\arena\microgame\MicrogameManager;

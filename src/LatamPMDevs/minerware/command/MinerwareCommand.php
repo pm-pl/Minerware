@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace LatamPMDevs\minerware\command;
 
-use LatamPMDevs\minerware\libs\_6973c7bfbec88639\CortexPE\Commando\BaseCommand;
+use LatamPMDevs\minerware\libs\_fe4864383218fa18\CortexPE\Commando\BaseCommand;
 use LatamPMDevs\minerware\command\subcommands\ArenasCommand;
 use LatamPMDevs\minerware\command\subcommands\CreditsCommand;
 use LatamPMDevs\minerware\command\subcommands\HelpCommand;
