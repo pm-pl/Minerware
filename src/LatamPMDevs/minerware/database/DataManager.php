@@ -24,16 +24,16 @@ namespace LatamPMDevs\minerware\database;
 
 use Closure;
 use InvalidArgumentException;
-use LatamPMDevs\minerware\libs\_fe4864383218fa18\IvanCraft623\languages\Language;
+use LatamPMDevs\minerware\libs\_bb9c9fb0e952b5d3\IvanCraft623\languages\Language;
 use LatamPMDevs\minerware\map\Map;
 use LatamPMDevs\minerware\map\MapManager;
 use LatamPMDevs\minerware\Minerware;
 use pocketmine\utils\AssumptionFailedError;
 use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
-use LatamPMDevs\minerware\libs\_fe4864383218fa18\poggit\libasynql\DataConnector;
-use LatamPMDevs\minerware\libs\_fe4864383218fa18\poggit\libasynql\libasynql;
-use LatamPMDevs\minerware\libs\_fe4864383218fa18\poggit\libasynql\SqlError;
+use LatamPMDevs\minerware\libs\_bb9c9fb0e952b5d3\poggit\libasynql\DataConnector;
+use LatamPMDevs\minerware\libs\_bb9c9fb0e952b5d3\poggit\libasynql\libasynql;
+use LatamPMDevs\minerware\libs\_bb9c9fb0e952b5d3\poggit\libasynql\SqlError;
 use function array_map;
 use function basename;
 use function file_exists;
@@ -193,7 +193,7 @@ final class DataManager {
 			if ($content === false) {
 				throw new AssumptionFailedError("Missing or inaccessible required resource files");
 			}
-			$data = array_map('\stripcslashes', $content);
+			$data = array_map(stripcslashes(...), $content);
 			$translator->registerLanguage(new Language($locale, $data));
 		}
 		$l = $this->config->get("default-language", "en_US");

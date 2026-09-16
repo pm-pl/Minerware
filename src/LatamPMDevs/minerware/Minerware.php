@@ -22,10 +22,10 @@ declare(strict_types=1);
 
 namespace LatamPMDevs\minerware;
 
-use LatamPMDevs\minerware\libs\_fe4864383218fa18\CortexPE\Commando\PacketHooker;
-use LatamPMDevs\minerware\libs\_fe4864383218fa18\IvanCraft623\fakeblocks\FakeBlockManager;
-use LatamPMDevs\minerware\libs\_fe4864383218fa18\IvanCraft623\languages\Translator;
-use LatamPMDevs\minerware\libs\_fe4864383218fa18\JackMD\ConfigUpdater\ConfigUpdater;
+use LatamPMDevs\minerware\libs\_bb9c9fb0e952b5d3\CortexPE\Commando\PacketHooker;
+use LatamPMDevs\minerware\libs\_bb9c9fb0e952b5d3\IvanCraft623\fakeblocks\FakeBlockManager;
+use LatamPMDevs\minerware\libs\_bb9c9fb0e952b5d3\IvanCraft623\languages\Translator;
+use LatamPMDevs\minerware\libs\_bb9c9fb0e952b5d3\JackMD\ConfigUpdater\ConfigUpdater;
 use LatamPMDevs\minerware\arena\ArenaManager;
 use LatamPMDevs\minerware\command\MinerwareCommand;
 use LatamPMDevs\minerware\database\DataManager;
